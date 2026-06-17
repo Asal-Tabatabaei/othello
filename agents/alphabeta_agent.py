@@ -79,15 +79,6 @@ class AlphaBetaAgent:
         return (w_piece * piece_diff) + (w_mobility * mobility_diff) + (w_position * position_score)
 
     def alphabeta(self, game, depth, alpha, beta, maximizing, root_player):
-        raise NotImplementedError
-
-    def choose_move(self, game, player):
-        value, move = self.alphabeta(
-            game, self.depth, float('-inf'), float('inf'), True, player
-        )
-        return move
-
-    def alphabeta(self, game, depth, alpha, beta, maximizing, root_player):
 
         if depth == 0 or game.game_over():
             return self.evaluate(game, root_player), None
