@@ -1,7 +1,6 @@
-# TODO: STUDENT IMPLEMENTATION
 
 class MinimaxAgent:
-    def __init__(self, depth=4):
+    def __init__(self, depth):
         self.depth = depth
 
     def evaluate(self, game, player):
@@ -82,7 +81,51 @@ class MinimaxAgent:
         
 
     def minimax(self, game, depth, maximizing, root_player):
-        raise NotImplementedError
+        
+        if depth == 0 or game.game_over():
+            return self.evaluate(game, root_player), None
+        
+        current_player = root_player if maximizing else -root_player
+        
+        valid_moves = game.get_valid_moves(current_player)
+        
+        if not valid_moves:
+            next_maximizing = not maximizing
+            return self.minimax(game, depth - 1, next_maximizing, root_player)[0], None
+        
+        best_move = None
+        
+        if maximizing:
+            max_eval = float('-inf')
+            
+            for move in valid_moves:
+                next_game = game.copy()
+                
+                next_game.make_move(current_player, *move)
+                
+                evaluation, _ = self.minimax(next_game, depth - 1, False, root_player)
+                
+                if evaluation > max_eval:
+                    max_eval = evaluation
+                    best_move = move
+            
+            return max_eval, best_move
+        
+        else:
+            min_eval = float('inf')
+            
+            for move in valid_moves:
+                next_game = game.copy()
+                
+                next_game.make_move(current_player, *move)
+                
+                evaluation, _ = self.minimax(next_game, depth - 1, True, root_player)
+                
+                if evaluation < min_eval:
+                    min_eval = evaluation
+                    best_move = move
+            
+            return min_eval, best_move
 
     def choose_move(self, game, player):
         value, move = self.minimax(game, self.depth, True, player)
