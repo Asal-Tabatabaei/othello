@@ -11,5 +11,11 @@ Project: Adversarial Search in Othello (Minimax and Alpha-Beta Pruning)
 from agents.random_agent import RandomAgent
 from agents.greedy_agent import GreedyAgent
 from tournament import play_game
+from agents.minimax_agent import MinimaxAgent
+from agents.alphabeta_agent import AlphaBetaAgent
+
 
 print(play_game(GreedyAgent(), RandomAgent()))
+print(play_game(GreedyAgent(), AlphaBetaAgent()))
+print(play_game(MinimaxAgent(depth=3), AlphaBetaAgent()))
+
